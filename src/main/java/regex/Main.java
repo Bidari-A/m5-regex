@@ -38,11 +38,14 @@ public class Main {
      * @return whether the string satisfies the password requirements
      */
     public static boolean checkForPassword(String str, int minLength) {
-        final boolean propertyOne = Pattern.matches("d+[a-z]+[A-Z]", str);
-        // as needed, modify this code.
-        if (str.length() < minLength) {
+        if (str == null || str.length() < minLength) {
             return false;
         }
+        final boolean propertyOne = Pattern.matches(".*\\d+.*", str) &&
+                                    Pattern.matches(".*[A-Z]+.*", str) &&
+                                    Pattern.matches(".*[a-z]+.*", str);
+
+
         return propertyOne;
     }
 
@@ -58,7 +61,10 @@ public class Main {
      * @return a list containing the email addresses in the string.
      */
     public static List<String> extractEmails(String str) {
-        final Pattern pattern = Pattern.compile("REPLACE WITH CORRECT REGEX");
+        if (str == null) {
+            return new ArrayList<>();
+        }
+        final Pattern pattern = Pattern.compile("[a-zA-Z0-9._%+-]+@(mail\\.utoronto\\.ca|utoronto\\.ca)");
         final Matcher matcher = pattern.matcher(str);
         final List<String> result = new ArrayList<>();
         while (matcher.find()) {
@@ -74,11 +80,14 @@ public class Main {
     //       capital letter twice, the method should return true. Otherwise it should return false.
 
     /**
-     * Checks whether a given string contains the same capital letter twice.
+     * Checks whether a given string contains the same capital letter twice..*([A-Z]).*\1.*
      * @param str the string to look for doubles in
      * @return whether str contains the same capital letter twice.
      */
     public static boolean checkForDoubles(String str) {
-        return str.matches("replace with correct regex");
+        if (str == null) {
+            return false;
+        }
+        return str.matches(".*([A-Z]).*\\1.*");
     }
 }
